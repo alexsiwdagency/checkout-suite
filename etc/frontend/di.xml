@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Checkout\Block\Onepage" type="IWD\CheckoutConnector\Block\Frame" />
+    <type name="Magento\Framework\Url\SecurityInfo">
+        <arguments>
+            <argument name="secureUrlList" xsi:type="array">
+                <item name="checkout_index" xsi:type="string">/iwd_checkout</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Checkout\Controller\Index\Index">
+        <plugin name="iwd_checkout_checkout_controller"
+                type="IWD\CheckoutConnector\Plugin\Checkout\Controller\Index\Index"/>
+    </type>
+    <type name="Magento\Checkout\Block\Onepage\Link">
+        <plugin name="iwd_checkout_get_checkout_url_onepage_link"
+                type="IWD\CheckoutConnector\Plugin\Checkout\Block\Onepage\Link"/>
+    </type>
+    <type name="Magento\Checkout\Block\Cart\Sidebar">
+        <plugin name="iwd_checkout_get_checkout_url_cart_sidebar"
+                type="IWD\CheckoutConnector\Plugin\Checkout\Block\Cart\Sidebar"/>
+    </type>
+    <type name="Magento\Checkout\Block\Link">
+        <plugin name="iwd_checkout_get_checkout_url_link"
+                type="IWD\CheckoutConnector\Plugin\Checkout\Block\Link"/>
+    </type>
+    <type name="Magento\Checkout\Block\Cart">
+        <plugin name="iwd_checkout_get_checkout_url_cart"
+                type="IWD\CheckoutConnector\Plugin\Checkout\Block\Cart"/>
+    </type>
+    <type name="Magento\Checkout\Model\Session">
+        <plugin name="iwd_checkout_get_checkout_clear_quote"
+                type="IWD\CheckoutConnector\Plugin\Checkout\ClearQuote" />
+    </type>
+
+    <!-- Add IWD Checkout PayPal Shortcut Buttons -->
+    <type name="IWD\CheckoutConnector\Block\Shortcut\PayPalButton">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="template" xsi:type="string">IWD_CheckoutConnector::shortcut/iwd_paypal_button.phtml</item>
+                <item name="alias" xsi:type="string">iwd.paypal.button</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

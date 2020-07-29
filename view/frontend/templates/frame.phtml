@@ -1,0 +1,40 @@
+<?php
+/**
+ * @var $block IWD\CheckoutConnector\Block\Frame
+ */
+?>
+
+<div class="iwd-checkout-iframe-wrapper">
+    <iframe id="<?= $block->getCheckoutIframeId() ?>"
+            src="<?= $block->getFrameUrl() ?>"
+            data-mage-init='<?= $block->getJsonConfig() ?>'
+            frameborder="0"
+            scrolling="no">
+    </iframe>
+
+    <div id="js-iwd-loader" class="iwd-loader">
+        <div class="iwd-loader__spin">
+            <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // Hide loader when checkout page inside iframe fully loads
+    let hideLoader = function(event) {
+        if (event.data.hideLoader) {
+            document.getElementById('js-iwd-loader').style.display = 'none';
+        }
+    };
+
+    if (window.addEventListener) {
+        window.addEventListener("message", hideLoader, false);
+    } else if (window.attachEvent) {
+        window.attachEvent("onmessage", hideLoader);
+    }
+</script>

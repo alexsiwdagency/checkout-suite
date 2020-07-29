@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <iwd_checkout_connector>
+            <general>
+                <enable>0</enable>
+                <integration_api_secret backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+            </general>
+        </iwd_checkout_connector>
+        <payment>
+            <iwd_checkout_paypal>
+                <model>IWDCheckoutPayPalFacade</model>
+                <active>1</active>
+                <title>IWD Checkout PayPal</title>
+                <order_status>pending</order_status>
+                <client_id>AWcLdoSQcgUQEwiU3rO-YxVo6BB7buhE6wZrwYsn0c4_40g-R71lvxLt_Sk2N_ujNHJuM9bZ1b4Y3AOw</client_id>
+                <bn_code>IWD_SP_PCP</bn_code>
+                <btn_shape>rect</btn_shape>
+                <btn_color>gold</btn_color>
+                <can_use_internal>0</can_use_internal>
+                <can_use_checkout>0</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <can_refund>1</can_refund>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+            </iwd_checkout_paypal>
+        </payment>
+    </default>
+</config>

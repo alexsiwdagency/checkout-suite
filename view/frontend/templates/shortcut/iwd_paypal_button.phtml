@@ -1,0 +1,19 @@
+<?php
+/**
+ * @var IWD\CheckoutConnector\Block\Shortcut\PayPalButton $block
+ */
+
+$containerId = $block->getContainerId();
+?>
+<script>
+    (function(d, s, id){
+        let js, ref = d.getElementsByTagName(s)[0];
+        if (!d.getElementById(id)){
+            js = d.createElement(s); js.id = id; js.async = true;
+            js.src = "https://www.paypal.com/sdk/js?client-id=<?= $block->getClientId() ?>&currency=<?= $block->getCurrencyCode() ?>&commit=false&intent=authorize";
+            js.setAttribute('data-partner-attribution-id', '<?= $block->getPayPalBnCode() ?>');
+            ref.parentNode.insertBefore(js, ref); }
+    }(document, "script", "paypal-sdk-js"));
+</script>
+
+<div id='<?= $containerId ?>' class="iwd-paypal-wrapper" data-mage-init='<?= $block->getJsonConfig($containerId) ?>'></div>

@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/iwd-checkout/address-step" method="POST">
+        <service class="IWD\CheckoutConnector\Api\AddressStepInterface" method="getData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/iwd-checkout/delivery-step" method="POST">
+        <service class="IWD\CheckoutConnector\Api\DeliveryStepInterface" method="getData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/iwd-checkout/payment-step" method="POST">
+        <service class="IWD\CheckoutConnector\Api\PaymentStepInterface" method="getData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/iwd-checkout/paypal-checkout" method="POST">
+        <service class="IWD\CheckoutConnector\Api\PayPalCheckoutInterface" method="getData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/iwd-checkout/apply-coupon" method="POST">
+        <service class="IWD\CheckoutConnector\Api\ApplyCouponInterface" method="getData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/iwd-checkout/order-create" method="POST">
+        <service class="IWD\CheckoutConnector\Api\OrderInterface" method="create"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/iwd-checkout/order-update" method="POST">
+        <service class="IWD\CheckoutConnector\Api\OrderInterface" method="update"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/iwd-checkout/get-quote-data" method="POST">
+        <service class="IWD\CheckoutConnector\Api\OrderInterface" method="getQuoteData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/iwd-checkout/update-config" method="POST">
+        <service class="IWD\CheckoutConnector\Api\UpdateConfigInterface" method="updateConfig"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

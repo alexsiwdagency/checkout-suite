@@ -1,0 +1,128 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Framework\Webapi\ServiceOutputProcessor" type="IWD\CheckoutConnector\Model\ServiceOutputProcessor" />
+    <preference for="IWD\CheckoutConnector\Api\AddressStepInterface" type="IWD\CheckoutConnector\Model\AddressStep" />
+    <preference for="IWD\CheckoutConnector\Api\DeliveryStepInterface" type="IWD\CheckoutConnector\Model\DeliveryStep"/>
+    <preference for="IWD\CheckoutConnector\Api\PaymentStepInterface" type="IWD\CheckoutConnector\Model\PaymentStep"/>
+    <preference for="IWD\CheckoutConnector\Api\PayPalCheckoutInterface" type="IWD\CheckoutConnector\Model\PayPalCheckout"/>
+    <preference for="IWD\CheckoutConnector\Api\ApplyCouponInterface" type="IWD\CheckoutConnector\Model\ApplyCoupon"/>
+    <preference for="IWD\CheckoutConnector\Api\OrderInterface" type="IWD\CheckoutConnector\Model\Order" />
+    <preference for="IWD\CheckoutConnector\Api\UpdateConfigInterface" type="IWD\CheckoutConnector\Model\UpdateConfig" />
+
+    <!-- IWD Checkout PayPal Payment Method -->
+    <virtualType name="IWDCheckoutPayPalFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">IWD\CheckoutConnector\Model\Ui\PayPalConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Magento\Payment\Block\ConfigurableInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">IWDCheckoutPayPalValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">IWDCheckoutPayPalCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration reader -->
+    <type name="IWD\CheckoutConnector\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">IWD\CheckoutConnector\Model\Ui\PayPalConfigProvider::CODE</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="IWDCheckoutPayPalCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="capture" xsi:type="string">IWDCheckoutPayPalCaptureCommand</item>
+                <item name="refund" xsi:type="string">IWDCheckoutPayPalRefundCommand</item>
+                <item name="void" xsi:type="string">IWDCheckoutPayPalVoidCommand</item>
+                <item name="cancel" xsi:type="string">IWDCheckoutPayPalCancelCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="IWDCheckoutPayPalCancelCommand" type="IWDCheckoutPayPalVoidCommand">
+        <arguments>
+            <argument name="handler" xsi:type="object">IWD\CheckoutConnector\Gateway\Response\CancelHandler</argument>
+        </arguments>
+    </virtualType>
+    <!-- END Cancel Command -->
+
+
+
+    <!-- Void command -->
+    <virtualType name="IWDCheckoutPayPalVoidCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">IWD\CheckoutConnector\Gateway\Request\VoidRequestBuilder</argument>
+            <argument name="handler" xsi:type="object">IWD\CheckoutConnector\Gateway\Response\VoidHandler</argument>
+            <argument name="transferFactory" xsi:type="object">VoidTransferFactory</argument>
+            <argument name="validator" xsi:type="object">IWD\CheckoutConnector\Gateway\Validator\ResponseValidator</argument>
+            <argument name="client" xsi:type="object">IWDCheckoutPayPalHttpClient</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="VoidTransferFactory" type="IWD\CheckoutConnector\Gateway\Http\TransferFactory">
+        <arguments>
+            <argument name="uri" xsi:type="string">void</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Capture command -->
+    <virtualType name="IWDCheckoutPayPalCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">IWD\CheckoutConnector\Gateway\Request\CaptureRequestBuilder</argument>
+            <argument name="handler" xsi:type="object">IWD\CheckoutConnector\Gateway\Response\CaptureHandler</argument>
+            <argument name="transferFactory" xsi:type="object">CaptureTransferFactory</argument>
+            <argument name="validator" xsi:type="object">IWD\CheckoutConnector\Gateway\Validator\ResponseValidator</argument>
+            <argument name="client" xsi:type="object">IWDCheckoutPayPalHttpClient</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="CaptureTransferFactory" type="IWD\CheckoutConnector\Gateway\Http\TransferFactory">
+        <arguments>
+            <argument name="uri" xsi:type="string">capture</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Refund Command -->
+    <virtualType name="IWDCheckoutPayPalRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">IWD\CheckoutConnector\Gateway\Request\RefundRequestBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">RefundTransferFactory</argument>
+            <argument name="client" xsi:type="object">IWDCheckoutPayPalHttpClient</argument>
+            <argument name="handler" xsi:type="object">IWD\CheckoutConnector\Gateway\Response\RefundHandler</argument>
+            <argument name="validator" xsi:type="object">IWD\CheckoutConnector\Gateway\Validator\ResponseValidator</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="RefundTransferFactory" type="IWD\CheckoutConnector\Gateway\Http\TransferFactory">
+        <arguments>
+            <argument name="uri" xsi:type="string">refund</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="IWDCheckoutPayPalValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">IWDCheckoutPayPalDefaultValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="IWDCheckoutPayPalHttpClient" type="Magento\Payment\Gateway\Http\Client\Zend">
+        <arguments>
+            <argument name="logger" xsi:type="object">IWDCheckoutPayPalLogger</argument>
+            <argument name="converter" xsi:type="object">IWD\CheckoutConnector\Gateway\Http\Converter\JsonConverter</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="IWDCheckoutPayPalLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">IWD\CheckoutConnector\Gateway\Config\Config</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="IWDCheckoutPayPalDefaultValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">IWD\CheckoutConnector\Gateway\Config\Config</argument>
+        </arguments>
+    </virtualType>
+    <preference for="IWD\CheckoutConnector\Api\InvoiceManagementInterface" type="IWD\CheckoutConnector\Model\Service\InvoiceService"/>
+</config>
