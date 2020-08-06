@@ -15,7 +15,7 @@ use Magento\Store\Model\ScopeInterface;
  *
  * @package IWD\CheckoutConnector\Helper
  */
-final class Data extends AbstractHelper
+class Data extends AbstractHelper
 {
     const PLATFORM = 'Magento2';
     const IWD_CHECKOUT_PAGE_PATH = 'iwd_checkout';

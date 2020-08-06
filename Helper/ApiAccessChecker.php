@@ -13,7 +13,7 @@ use IWD\CheckoutConnector\Model\Ui\PayPalConfigProvider;
  *
  * @package IWD\CheckoutConnector\Helper
  */
-final class ApiAccessChecker extends AbstractHelper
+class ApiAccessChecker extends AbstractHelper
 {
     /**
      * @var Curl

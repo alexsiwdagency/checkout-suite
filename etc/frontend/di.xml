@@ -43,4 +43,18 @@
             </argument>
         </arguments>
     </type>
+
+    <!-- Security Reason -->
+    <type name="IWD\CheckoutConnector\Block\Frame">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="IWD\CheckoutConnector\Controller\Action">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>

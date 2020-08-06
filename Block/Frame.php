@@ -3,7 +3,6 @@
 namespace IWD\CheckoutConnector\Block;
 
 use Magento\Checkout\Block\Onepage as CheckoutOnepage;
-use Magento\Checkout\Model\Session\Proxy as CheckoutSession;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\Data\Form\FormKey;
@@ -71,7 +70,7 @@ class Frame extends CheckoutOnepage
         Context $context,
         FormKey $formKey,
         CompositeConfigProvider $configProvider,
-        CheckoutSession $checkoutSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         CustomerSession $customerSession,
         TokenFactory $tokenModelFactory,
         Data $helper,

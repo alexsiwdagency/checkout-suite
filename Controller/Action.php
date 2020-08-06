@@ -4,11 +4,9 @@ namespace IWD\CheckoutConnector\Controller;
 
 use IWD\CheckoutConnector\Helper\Data as Helper;
 use Magento\Checkout\Helper\Data as CheckoutHelper;
-use Magento\Checkout\Model\Session\Proxy as CheckoutSession;
 use Magento\Checkout\Model\Type\Onepage;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Model\Session\Proxy as CustomerSession;
 use Magento\Framework\App\Action\Action as MagentoAction;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\RawFactory;
@@ -48,12 +46,12 @@ abstract class Action extends MagentoAction
      */
     public function __construct(
         Context $context,
-        CustomerSession $customerSession,
+        \Magento\Customer\Model\Session $customerSession,
         Onepage $onepage,
         CheckoutHelper $checkoutHelper,
         CustomerRepositoryInterface $customerRepository,
         RawFactory $resultRawFactory,
-        CheckoutSession $checkoutSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         PageFactory $resultPageFactory,
         Helper $helper,
         AccountManagementInterface $accountManagement
